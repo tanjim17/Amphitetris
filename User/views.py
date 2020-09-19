@@ -42,5 +42,5 @@ def profile(request):
         'u_form': u_form,
         'p_form': p_form,
     }
-    return render(request, 'User/profile.html', context)
-
+    print(request.user.profile.category)
+    return render(request, 'vendorProfile.html', context)
