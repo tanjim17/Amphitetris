@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
     'home.apps.HomeConfig',
+    'User.apps.UserConfig',
 ]
 
 MIDDLEWARE = [
@@ -124,3 +126,7 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+LOGIN_REDIRECT_URL = 'home:main-page'
+# login required will redirect ot this page
+LOGIN_URL = 'login'
