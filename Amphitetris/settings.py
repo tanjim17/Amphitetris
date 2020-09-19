@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'User.apps.UserConfig',
     'owner.apps.OwnerConfig',
+    'vendor.apps.VendorConfig',
 ]
 
 MIDDLEWARE = [
@@ -123,7 +124,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR,'home/static'),
+    os.path.join(BASE_DIR, 'home/static'),
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
