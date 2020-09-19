@@ -1,3 +1,4 @@
 from django.contrib import admin
+from owner.models import Tender
 
-# Register your models here.
+admin.site.register(Tender)
