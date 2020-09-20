@@ -22,7 +22,7 @@ def createTender(request):
                 newtender = form.save(commit=False)
                 newtender.owner = Profile.objects.get(user=request.user)
                 newtender.save()
-                messages.success(request, f'Tender Created!')
+                messages.success(request, 'Tender Created!')
                 return redirect('home:main-page')
         else:
             form = TenderForm()
@@ -45,3 +45,4 @@ def deleteTender(request, tender_id):
         Tender.objects.get(id=tender_id).delete()
         return redirect('home:main-page')
     return redirect('login')
+

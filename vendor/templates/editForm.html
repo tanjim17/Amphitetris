@@ -45,35 +45,56 @@
 
             <div class="col-md-10">
                 <div data-spy="scroll" data-target="#navbar-example3" data-offset="0">
-                    <div class='container'>
-                        {% for product in products.all %}
-                        <br />
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        {{product.category}}
-                                    </div>
-                                    <div class="card-body">
-                                        <h4 class="card-title">{{product.product_name}}</h4>
-                                        <h6 class="card-text">Amount: {{product.amount}}</h6>
-                                        <h6>Price per unit: {{product.price_per_unit}}</h6>
-                                        <p>{{product.product_description}}</p>
-                                        <a href="{% url 'vendor:edit_product' product.product_name %}"
-                                            class="btn btn-secondary">Edit product</a>
-                                    </div>
+                    <div class="mt-5">
+                        <form method='POST' action="{% url 'vendor:edit_product' product_name %}">
+                            {% csrf_token %}
+                            <div class="form-group row">
+                                <label for="amount" class="col-sm-2 col-form-label">Amount</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="amount" value="{{product.amount}}"
+                                        name="amount">
                                 </div>
                             </div>
-                        </div>
-                        {% endfor %}
-
-                        <br />
-
-                        <div class="row mb-5">
-                            <div class="col-md-12">
-                                <a href="{% url 'vendor:addProduct' %}" class="btn btn-primary">Add product</a>
+                            <div class="form-group row">
+                                <label for="price_per_unit" class="col-sm-2 col-form-label">Price per unit</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="price_per_unit"
+                                        value="{{product.price_per_unit}}" name="price_per_unit">
+                                </div>
                             </div>
-                        </div>
+
+
+
+                            <div class="form-row">
+                                <div class="col-md-2">
+                                    <label for="Category">Category</label>
+                                </div>
+                                <div class="col-md-10">
+                                    <select id="Category" class="form-control" name="Category">
+                                        <option value="Fiber">Fiber</option>
+                                        <option value="Fabric">Fabric</option>
+                                        <option value="Dye">Dye</option>
+                                        <option value="Chemical and auxiliaries">Chemical and auxiliaries
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br />
+
+                            <div class="form-group row">
+                                <label for="description" class="col-sm-2 col-form-label">Description</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" id="description" rows="3"
+                                        name="description"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-10">
+                                    <input type="submit" value="Save" class="btn btn-primary"></input>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
