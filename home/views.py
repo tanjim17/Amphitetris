@@ -1,10 +1,12 @@
 from django.shortcuts import render
-
-# Create your views here.
+from User.models import Profile
 
 
 def homepage(request):
-    return render(request, 'home.html')
+    if Profile.objects.get(user=request.user).category == 'GM':
+        return render(request, 'ownerhome.html')
+    else:
+        return render(request, 'home.html')
 
 
 def about_page(request):
