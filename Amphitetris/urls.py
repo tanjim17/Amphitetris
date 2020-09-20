@@ -41,4 +41,5 @@ urlpatterns = [
          name='password_reset_confirm'),
     path('vendor/', include('vendor.urls')),
     path('tender/', include('TenderPost.urls')),
+    path('market/', include('market.urls')),
 ]
