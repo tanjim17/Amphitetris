@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'User.apps.UserConfig',
     'owner.apps.OwnerConfig',
     'vendor.apps.VendorConfig',
+    'TenderPost.apps.TenderpostConfig',
 ]
 
 MIDDLEWARE = [

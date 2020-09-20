@@ -16,4 +16,3 @@ def homepage(request):
 
 def about_page(request):
     return render(request, 'profile.html')
-

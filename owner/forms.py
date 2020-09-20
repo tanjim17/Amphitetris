@@ -11,4 +11,3 @@ class TenderForm(forms.ModelForm):
             'publish_date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Select a date', 'type': 'date'}),
             'closing_date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Select a date', 'type': 'date'}),
         }
-
