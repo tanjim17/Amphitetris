@@ -42,5 +42,7 @@ def profile(request):
         'u_form': u_form,
         'p_form': p_form,
     }
-    print(request.user.profile.category)
-    return render(request, 'vendorProfile.html', context)
+    if request.user.profile.get_category() == 'VR':
+        return render(request, 'vendorProfile.html', context)
+    else:
+        return render(request, 'ownerhome.html', context)

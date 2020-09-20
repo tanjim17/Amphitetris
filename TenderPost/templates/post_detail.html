@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+    <article class="media content-section">
+      <div class="media-body">
+        <div class="article-metadata">
+{#        give business an profile page link#}
+{#          <a class="mr-2" href="{% url 'blog_site:user-posts' object.author.username %}">{{ object.author }}</a>#}
+          <table class="table table-hover ">
+              <thead>
+                <th>Title</th>
+                <th>Data</th>
+              </thead>
+              <tbody id = "table_body" style="color: #002400">
+              <tr>
+                  <td>Enterprise Name</td>
+                  <td><a href="#">{{ details.cmp_name }}</a> </td>
+              </tr>
+              <tr>
+                  <td>Address</td>
+                  <td>{{ details.address }}</td>
+              </tr>
+              <tr>
+                  <td>Title</td>
+                  <td>{{ details.tendertitle }}</td>
+              </tr>
+              <tr>
+                  <td>Product Category</td>
+                  <td>{{ details.category }}</td>
+              </tr>
+              <tr>
+                  <td>Product Description</td>
+                  <td>{{ details.description }}</td>
+              </tr>
+              <tr>
+                  <td>Publish Date</td>
+                  <td>{{ details.publish_date }}</td>
+              </tr>
+              <tr>
+                  <td>Expiry Date</td>
+                  <td>{{ details.closing_date }}</td>
+              </tr>
+
+              </tbody>
+        </table>
+        </div>
+
+      </div>
+    </article>
+    <div class="col-md-4">
+          <div class="content-section">
+              <br>
+              <a class="btn btn-primary" href="{% url 'tender:tender-bid' details.id %}">APPLY TO BID</a>
+          </div>
+    </div>
+
+{% endblock content %}
+
+{#detailview class returns everything named as object#}
