@@ -40,4 +40,5 @@ urlpatterns = [
              template_name='password_reset_confirm.html'),
          name='password_reset_confirm'),
     path('vendor/', include('vendor.urls')),
+    path('tender/', include('TenderPost.urls')),
 ]
