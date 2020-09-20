@@ -9,17 +9,6 @@ from django.contrib.auth.decorators import login_required
 
 
 def postview(request):
-    content = {
-        'id': 40,
-        'name': 'J&Kenterprise',
-        'tenderno': 45,
-        'tendertitle': 'need clothes',
-        'publish_date': '25/9/20',
-        'closing_date': '30/9/20',
-        'description': 'Need superior quality linen',
-        'category': 'clothes',
-    }
-
     all_tenders = Tender.objects.all()
 
     return render(request, 'mainpost.html', {'post_data': all_tenders})
@@ -36,6 +25,8 @@ def postdetail(request, pk):
         'description': 'Need superior quality linen',
         'category': 'clothes',
     }
+    tender_post = Tender.objects.filter(id=pk)
+    print(tender_post)
     return render(request, 'post_detail.html', {'details': post_details})
 
 
