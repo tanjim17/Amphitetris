@@ -1,4 +1,5 @@
 from django.contrib import admin
-from owner.models import Tender
+from owner.models import *
 
 admin.site.register(Tender)
+admin.site.register(PurchaseOrder)
