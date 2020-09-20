@@ -16,30 +16,91 @@
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-              </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Tenders</a>
+                <a class="nav-link" href="{% url 'home:main-page' %}">Home <span class="sr-only">(current)</span></a>
               </li>
-               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  New +
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="{% url 'owner:newtender'%}">New Tender</a>
-                  <a class="dropdown-item" href="#">New Purchase Order</a>
-                </div>
-                   <li class="nav-item">
-                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-              </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'owner:newtender'%}">New Tender +</a>
               </li>
             </ul>
           </div>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout'%}">Logout</a>
+              </li>
+        </ul>
         </nav>
+
+  <div class="container">
+      <div class="row">
+      <div class="col-lg-6">
+      <h3>Open Tenders</h3>
+      <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Title</th>
+              <th scope="col">Closing Date</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for tender in tender_list %}
+              <tr>
+                    <td scope="row">{{ forloop.counter }}</td>
+                  <td><a href="{% url 'owner:showtender' tender_id=tender.id %}">{{ tender.tender_title }}</a></td>
+                    <td>{{ tender.closing_date }}</td>
+              </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      <h3>Pending Purchase Orders</h3>
+      <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Title</th>
+              <th scope="col">Vendor</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for tender in tender_list %}
+              <tr>
+                    <td scope="row">{{ forloop.counter }}</td>
+                  <td><a href="{% url 'owner:showtender' tender_id=tender.id %}">{{ tender.tender_title }}</a></td>
+                    <td>{{ tender.closing_date }}</td>
+              </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col-lg-6">
+      <h3>Successful Purchase Orders</h3>
+      <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Title</th>
+              <th scope="col">Vendor</th>
+                <th scope="col">Received Date</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for tender in tender_list %}
+              <tr>
+                    <td scope="row">{{ forloop.counter }}</td>
+                  <td><a href="{% url 'owner:showtender' tender_id=tender.id %}">{{ tender.tender_title }}</a></td>
+                    <td>{{ tender.closing_date }}</td>
+              </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      </div>
+  </div>
+
 
 
 
