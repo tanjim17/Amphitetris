@@ -68,6 +68,7 @@ def editProduct(request, product_name):
 
 
 def addProduct(request):
+    print('mairala')
     if request.method == 'POST':
         product_name = request.POST['porduct_name']
         amount = request.POST['amount']
