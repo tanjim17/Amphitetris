@@ -9,7 +9,6 @@ from User.models import Profile
 
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
-    print(kwargs)
     if created:
         Profile.objects.create(user=instance)
         # runs everytime an user is created, needs to be integrated using reciever
