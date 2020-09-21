@@ -6,6 +6,7 @@ from TenderPost.models import *
 from django.contrib import messages
 from datetime import date
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 
 def isOwner(request):
@@ -51,7 +52,12 @@ def showBidDetail(request, tender_id, bid_id):
             order = PurchaseOrder.objects.get(bid=bid)
         except PurchaseOrder.DoesNotExist:
             order = None
-        context = {'tender': tender, 'bid': bid, 'order': order, 'date': date.today()}
+        placedOrder = PurchaseOrder.objects.filter(bid__tender=tender).exclude(status=PurchaseOrder.CANCELLED)
+        if not placedOrder:
+            placed=False
+        else:
+            placed=True
+        context = {'tender': tender, 'bid': bid, 'order': order, 'date': date.today(), 'placed': placed}
         return render(request, 'biddetail.html', context)
     return redirect('login')
 
