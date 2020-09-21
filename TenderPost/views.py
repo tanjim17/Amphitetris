@@ -26,7 +26,7 @@ def postdetail(request, pk):
     user_profile = Profile.objects.get(user=request.user)
     message = "Not Applied"
     if TenderBid.objects.filter(tender=tender_post).exists():
-        tender_bid = TenderBid.objects.get(tender=tender_post)
+        tender_bid = TenderBid.objects.get(tender=tender_post, vendor=user_profile)
         vendor = tender_bid.vendor
     # print(vendor.id)
     # print(user_profile.id)
