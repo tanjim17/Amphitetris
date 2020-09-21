@@ -10,23 +10,21 @@ from django.contrib.auth.decorators import login_required
 
 def postview(request):
     all_tenders = Tender.objects.all()
-
-    return render(request, 'mainpost.html', {'post_data': all_tenders})
+    all_tenders_new = []
+    for tenderIns in all_tenders:
+        tender = Tender.objects.get(id=tenderIns.id)
+        owner = tender.owner
+        newData = tenderIns.__dict__
+        newData['username'] = str(owner.user.username)
+        all_tenders_new.append(newData)
+    return render(request, 'mainpost.html', {'post_data': all_tenders_new})
 
 
 def postdetail(request, pk):
-    post_details = {
-        'id': pk,
-        'cmp_name': "J&Kenterprise",
-        'address': "mirpur",
-        'tendertitle': 'need clothes',
-        'publish_date': '25/9/20',
-        'closing_date': '30/9/20',
-        'description': 'Need superior quality linen',
-        'category': 'clothes',
-    }
-    tender_post = Tender.objects.filter(id=pk)
-    print(tender_post)
+    tender_post = Tender.objects.get(id=pk)
+    post_details = tender_post.__dict__
+    post_details['cmp_name'] = tender_post.owner.user.username
+    post_details['address'] = tender_post.owner.address
     return render(request, 'post_detail.html', {'details': post_details})
 
 
