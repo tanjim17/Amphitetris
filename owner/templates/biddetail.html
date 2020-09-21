@@ -75,11 +75,15 @@
         </table>
           <!-- Button trigger modal -->
           {% if order == None%}
-              {% if bid.tender.closing_date < date %}
-                  <div class="alert alert-primary" role="alert">Tender is closed :(</div>
+              {% if bid.tender.closing_date > date %}
+                  <div class="alert alert-primary" role="alert">Tender Invitation Open!</div>
                   {% else %}
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Place Order</button>
-                  {% endif %}
+                    {% if placed == False %}
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Place Order</button>
+                    {% else %}
+                        <div class="alert alert-primary" role="alert">Order already placed!</div>
+                    {% endif %}
+                    {% endif %}
               {% else %}
                 {% if order.status == order.PENDING %}
                     <div class="alert alert-primary" role="alert">You have already placed your order!</div>
