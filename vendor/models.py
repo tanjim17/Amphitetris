@@ -13,4 +13,14 @@ class Inventory(models.Model):
     product_description = models.CharField(max_length=650, default="")
 
     def __str__(self):
-        return str(self.vendor_id)+': ' + self.product_name
+        return str(self.vendor_id) + ': ' + self.product_name
+
+
+class Orders(models.Model):
+    buyer_reg_no = models.IntegerField()
+    seller_reg_no = models.IntegerField()
+    product_name = models.CharField(max_length=100)
+    amount = models.FloatField()
+    price = models.FloatField()
+    # p = pending, a = accepted, d = denied
+    accepted = models.CharField(default='p', max_length=2)

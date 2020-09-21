@@ -32,30 +32,27 @@
                 </nav>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-2">
-                <div id="list-example" class="list-group">
-                    <a class="list-group-item list-group-item-action" href="{% url 'vendor:Profile' %}">Profile</a>
-                    <a class="list-group-item list-group-item-action" href="{% url 'vendor:accounts' %}">Accounts</a>
-                    <a class="list-group-item list-group-item-action" href="{% url 'vendor:inventory' %}">Inventory</a>
-                    <a class="list-group-item list-group-item-action" href="{% url 'vendor:sales' %}">Sales</a>
-                    <a class="list-group-item list-group-item-action" href="{% url 'vendor:order' %}">Order</a>
-                </div>
-            </div>
 
-            <div class="col-md-10">
+        <div class="row">
+            <div class="col-md-12">
                 <div data-spy="scroll" data-target="#navbar-example3" data-offset="0">
                     <div class="container">
-                        {% for order in orders.all %}
+                        {%for product in products.all%}
                         <br />
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card">
+                                    <div class="card-header">
+                                        {{product.category}}
+                                    </div>
                                     <div class="card-body">
-                                        <h4 class="card-title">{{order.buyer_reg_no}}</h4>
-                                        <h6 class="card-text">Product name: {{order.product_name}}</h6>
-                                        <h6>Amount: {{order.amount}}</h6>
-                                        <p>Total price: {{order.price}}</p>
+                                        <h4 class="card-title">{{product.product_name}}</h4>
+                                        <h6 class="card-text">Amount: {{product.amount}}</h6>
+                                        <h6>Price per unit: {{product.price_per_unit}}</h6>
+                                        <p>{{product.product_description}}</p>
+                                        <a href="{% url 'market:productDetails' product.vendor_id product.product_name %}"
+                                            class="btn btn-secondary">Edit
+                                            product</a>
                                     </div>
                                 </div>
                             </div>
