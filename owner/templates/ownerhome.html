@@ -60,16 +60,21 @@
             <tr>
               <th scope="col">#</th>
               <th scope="col">Title</th>
-              <th scope="col">Vendor</th>
+                <th scope="col">Vendor</th>
+              <th scope="col">Delivery Date</th>
             </tr>
           </thead>
           <tbody>
-          {% for tender in tender_list %}
+          {% for order in orders %}
+              {% if order.status == 'PD' %}
               <tr>
                     <td scope="row">{{ forloop.counter }}</td>
-                  <td><a href="{% url 'owner:showtender' tender_id=tender.id %}">{{ tender.tender_title }}</a></td>
-                    <td>{{ tender.closing_date }}</td>
+                  <td><a href="{% url 'owner:showtender' tender_id=order.bid.tender.id %}">
+                      {{ order.bid.tender.tender_title }}</a></td>
+                  <td>{{ order.bid.vendor.user.username }}</td>
+                    <td>{{ order.bid.delivery_date }}</td>
               </tr>
+              {% endif %}
           {% endfor %}
           </tbody>
         </table>
@@ -83,16 +88,18 @@
               <th scope="col">#</th>
               <th scope="col">Title</th>
               <th scope="col">Vendor</th>
-                <th scope="col">Received Date</th>
             </tr>
           </thead>
           <tbody>
-          {% for tender in tender_list %}
+          {% for order in orders %}
+          {% if order.status == 'SC' %}
               <tr>
                     <td scope="row">{{ forloop.counter }}</td>
-                  <td><a href="{% url 'owner:showtender' tender_id=tender.id %}">{{ tender.tender_title }}</a></td>
-                    <td>{{ tender.closing_date }}</td>
+                  <td><a href="{% url 'owner:showtender' tender_id=order.bid.tender.id %}">
+                      {{ order.bid.tender.tender_title }}</a></td>
+                    <td>{{ order.bid.vendor.user.username }}</td>
               </tr>
+              {% endif %}
           {% endfor %}
           </tbody>
         </table>

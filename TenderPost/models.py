@@ -13,3 +13,17 @@ class TenderBid(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+
+class PurchaseOrder(models.Model):
+    bid = models.ForeignKey(TenderBid, on_delete=models.CASCADE)
+    PENDING = 'PD'
+    SUCCESS = 'SC'
+    STATUS_CHOICES = [
+        (PENDING, 'Pending'),
+        (SUCCESS, 'Successful'),
+    ]
+    status = models.CharField(max_length=2, choices=STATUS_CHOICES, default=PENDING)
+
+    def __str__(self):
+        return self.bid.tender.tender_title
