@@ -4,20 +4,58 @@
             <div class="col-md-2">
                 <div id="list-example" class="list-group">
                     <a class="list-group-item list-group-item-action" href="{% url 'vendor:Profile' %}">Profile</a>
+                    <a class="list-group-item list-group-item-action" href="{% url 'tender:tender-post' %}">See All Tenders</a>
                     <a class="list-group-item list-group-item-action" href="{% url 'vendor:purchaseorders' %}">Tender List</a>
                     <a class="list-group-item list-group-item-action" href="{% url 'vendor:inventory' %}">Inventory</a>
                     <a class="list-group-item list-group-item-action" href="{% url 'vendor:sales' %}">Sales</a>
                     <a class="list-group-item list-group-item-action" href="{% url 'vendor:order' %}">Order</a>
                     <a class="list-group-item list-group-item-action" href="{% url 'market:vendorProducts' %}">Go To Market Inventory</a>
                     <a class="list-group-item list-group-item-action" href="{% url 'vendor:vendor_noti' %}">Notifications</a>
+                    <a class="list-group-item list-group-item-action" href="{% url 'market:emergency' %}">Emergency CallOut</a>
                 </div>
             </div>
 
-            <div class="col-md-10">
-                <div data-spy="scroll" data-target="#navbar-example3" data-offset="0">
-                    Purchase orders
+                {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+                {% endfor %}
+                {% endif %}
+                    <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div data-spy="scroll" data-target="#navbar-example3" data-offset="0">
+                                <div class="container">
+                                    {% for order in orders %}
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    {{order.product_name}}
+                                                </div>
+                                                <div class="card-body">
+                                                    <h4 class="card-title">{{order.owner_name}}</h4>
+                                                    <h6 class="card-text">Amount: {{order.amount_del}}</h6>
+                                                    <h6>Total Revenue: {{order.total_price}}</h6>
+                                                    <h6>Expected Delivery Date: {{ order.del_date }}</h6>
+                                                    <h6>Possible Delivery Date: {{ order.cap_del_date }}</h6>
+                                                    <p>{{order.product_desc}}</p>
+
+                                                    <a href="{% url 'vendor:confirm-tender' order.id %}"
+                                                    class="btn btn-secondary">Accept</a>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {%endfor%}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
         </div>
+
+
 {% endblock content %}
 

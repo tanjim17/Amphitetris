@@ -3,6 +3,8 @@ from .models import Inventory, Orders
 from django.contrib.auth.decorators import login_required
 from User.models import Profile
 from django.core.exceptions import ObjectDoesNotExist
+from TenderPost.models import PurchaseOrder
+from django.contrib import messages
 # Create your views here.
 
 
@@ -11,7 +13,33 @@ def profile(request):
 
 
 def purchaseOrders(request):
-    return render(request, 'purchaseorders.html')
+    orders = PurchaseOrder.objects.filter(bid__vendor__registration_num=
+                                          request.user.profile.registration_num).filter(status="PD")
+    list = []
+    for o in orders:
+        d = {}
+        d['id'] = o.id
+        d['owner_name'] = o.bid.tender.owner.user.username
+        d['del_date'] = o.bid.tender.closing_date
+        d['cap_del_date'] = o.bid.delivery_date
+        d['amount_del'] = o.bid.amount
+        d['product_name'] = o.bid.tender.product_name
+        d['total_price'] = o.bid.price
+        d['product_desc'] = o.bid.product_description
+        list.append(d.copy())
+    return render(request, 'purchaseorders.html', {'orders': list})
+
+
+def confirm_tender(request, id):
+    order = PurchaseOrder.objects.get(id=id)
+    order.status = 'SC'
+    order.save()
+    inv = Inventory.objects.get(vendor_id=order.bid.vendor.registration_num,
+                                product_name=order.bid.tender.product_name)
+    inv.amount = inv.amount - order.bid.amount
+    inv.save()
+    messages.success(request, f'Your Purchase Request has been registered!')
+    return redirect('vendor:purchaseorders')
 
 
 @login_required
@@ -30,7 +58,7 @@ def inventory(request):
 
 
 def sales(request):
-    if (request.user.profile.category == "VR"):
+    if request.user.profile.category == "VR":
         orders = Orders.objects.filter(
             seller_reg_no=request.user.profile.registration_num, accepted='a')
         print(orders)
