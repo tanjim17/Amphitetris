@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Inventory
+from .models import Inventory, Orders
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -29,11 +29,45 @@ def inventory(request):
 
 
 def sales(request):
-    return render(request, 'sales.html')
+    if (request.user.profile.category == "VR"):
+        orders = Orders.objects.filter(
+            seller_reg_no=request.user.profile.registration_num, accepted='a')
+        print(orders)
+        return render(request, 'sales.html', {'orders': orders})
+    else:
+        return redirect('login')
 
 
 def order(request):
-    return render(request, 'order.html')
+    if (request.user.profile.category == "VR"):
+        orders = Orders.objects.filter(
+            seller_reg_no=request.user.profile.registration_num, accepted='p')
+        print(orders)
+        return render(request, "order.html", {'orders': orders})
+    else:
+        return redirect('login')
+    # return render(request, 'order.html')
+
+
+def orderProcess(request, vendor_id, product_name):
+    if (request.user.profile.category == "VR" and request.user.profile.registration_num == vendor_id):
+        if request.method == "POST":
+            state = request.POST['state']
+            print(state)
+            orderInstance = Orders.objects.get(
+                seller_reg_no=vendor_id, product_name=product_name)
+            if (state == 'accepted'):
+                orderInstance.accepted = 'a'
+            elif (state == 'denied'):
+                orderInstance.accepted = 'd'
+            orderInstance.save()
+
+            return redirect('vendor:order')
+        else:
+            return redirect('vendor:order')
+
+    else:
+        return redirect('login')
 
 
 def editProduct(request, product_name):
@@ -61,10 +95,10 @@ def editProduct(request, product_name):
             vendor_id=request.user.profile.registration_num,
             product_name=product_name)
         pr = None
-        for p in product:
-            print(p.amount)
-            pr = p
-        return render(request, 'editForm.html', {'product_name': product_name, 'product': pr})
+        # for p in product:
+        #     print(p.amount)
+        #     pr = p
+        return render(request, 'editForm.html', {'product_name': product_name, 'product': product})
 
 
 def addProduct(request):
@@ -92,3 +126,7 @@ def addProduct(request):
             return redirect('vendor:inventory')
     else:
         return render(request, 'addproduct.html')
+
+
+def allProducts(request):
+    return render(request, 'products.html')
