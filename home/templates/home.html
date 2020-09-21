@@ -1,49 +1,71 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="text-center">
-        <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
-          <header class="masthead mb-auto">
-            <div class="inner">
-              <h3 class="masthead-brand">Cover</h3>
+{#    <div class="text-center">#}
+{#        <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">#}
+{#          <header class="masthead mb-auto">#}
+{#            <div class="inner">#}
+{#              <h3 class="masthead-brand" style="font-family: 'Bookman Old Style'">Amphitetris</h3>#}
+{##}
+{#            </div>#}
+{#          </header>#}
+{##}
+{#          <main role="main" class="inner cover">#}
+{#            <h1 class="cover-heading">Cover your page.</h1>#}
+{#            <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>#}
+{#            <p class="lead">#}
+{#              <a href="#" class="btn btn-lg btn-secondary">Learn more</a>#}
+{#            </p>#}
+{#          </main>#}
+{##}
+{#          <footer class="mastfoot mt-auto">#}
+{#            <div class="inner">#}
+{#              <p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>#}
+{#            </div>#}
+{#          </footer>#}
+{#        </div>#}
+{#    </div>#}
 
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="jumbotron">
+                    <p style="font-size: 70px; color:green">AMPHITETRIS</p>
+                    <p style="font-size: 30px; color: darkturquoise;font-family: Consolas">Where Vendors Meet Owners...</p>
+                    <br />
+                    <p style="color: #5f788a; width: 430px;">Amphitetris gives you digital solution to procurement process, seller-buyer interaction
+                    with cutting edge automation techniques</p>
+                    <br />
+                    <br />
+                    <!-- <button type="button" class="btn btn-outline-success btn-lg" style="color: white;">Get in
+                        touch</button> -->
+                    <a href="#" class="btn btn-outline-success btn-lg" style="color: white;">Get
+                        in touch</a>
+                </div>
             </div>
-          </header>
-
-          <main role="main" class="inner cover">
-            <h1 class="cover-heading">Cover your page.</h1>
-            <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
-            <p class="lead">
-              <a href="#" class="btn btn-lg btn-secondary">Learn more</a>
-            </p>
-          </main>
-
-          <footer class="mastfoot mt-auto">
-            <div class="inner">
-              <p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
-            </div>
-          </footer>
         </div>
+
+
+        <div class="row" >
+            <div class="col-12">
+                <div class="jumbotron text-center">
+                    <h1 style="color: black;" id="contact">Get in touch</h1>
+                    <p>We are always eager to get acquinted with people who share same field and platforms with us and
+                        helps us to grow. Our inbox
+                        will always be open for everyone whether you have a query or just want to say hi. We'll try our best to
+                        get back to you.</p>
+                    <a href="https://www.facebook.com/profile.php?id=100009705120138"><span
+                            style="font-size: 40px; color: rgb(180, 235, 216);" class="mr-3"><i
+                                class="fab fa-facebook"></i></span></a>
+                    <a href="https://www.linkedin.com/in/sadat-shahriyar-10039a169/"><span
+                            style="font-size: 40px; color: rgb(180, 235, 216);" class="mr-3"><i
+                                class="fab fa-linkedin-in"></i></span></a>
+
+                    <a href="mailto:shahriyarsadat@gmail.com"><span
+                            style="font-size: 40px; color: rgb(180, 235, 216);"><i class="fas fa-at"></i></span></a>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    {% if is_paginated %}
-        {% if page_obj.has_previous %}
-            <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_num }}">Previous</a>
-
-        {% endif %}
-        {% for num in page_obj.paginator.page_range %}
-            {% if page_obj.number == num %}
-                <a class="btn btn-info mb-4" href="?page= {{ num }}">{{ num }}</a>
-            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
-            {% endif %}
-        {% endfor %}
-
-        {% if page_obj.has_next %}
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_num }}">Next</a>
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-
-        {% endif %}
-
-    {% endif %}
 {% endblock content %}
