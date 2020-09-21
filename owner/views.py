@@ -4,6 +4,7 @@ from User.models import Profile
 from owner.models import *
 from TenderPost.models import *
 from django.contrib import messages
+from datetime import date
 from django.contrib.auth.decorators import login_required
 
 
@@ -36,7 +37,7 @@ def showTenderDetail(request, tender_id):
     if isOwner(request):
         tender = Tender.objects.get(id=tender_id)
         tenderBids = TenderBid.objects.filter(tender=tender)
-        context = {'tender': tender, 'tenderBids': tenderBids}
+        context = {'tender': tender, 'tenderBids': tenderBids,}
         return render(request, 'tenderdetail.html', context)
     return redirect('login')
 
@@ -46,7 +47,11 @@ def showBidDetail(request, tender_id, bid_id):
     if isOwner(request):
         tender = Tender.objects.get(id=tender_id)
         bid = TenderBid.objects.get(id=bid_id)
-        context = {'tender': tender, 'bid': bid}
+        try:
+            order = PurchaseOrder.objects.get(bid=bid)
+        except PurchaseOrder.DoesNotExist:
+            order = None
+        context = {'tender': tender, 'bid': bid, 'order': order, 'date': date.today()}
         return render(request, 'biddetail.html', context)
     return redirect('login')
 
@@ -67,3 +72,24 @@ def createOrder(request, bid_id):
         return redirect('home:main-page')
     return redirect('login')
 
+
+@login_required
+def updateOrder(request, bid_id):
+    if isOwner(request):
+        order = PurchaseOrder.objects.get(bid=TenderBid.objects.get(id=bid_id))
+        order.status = order.SUCCESSFUL
+        order.received_date = date.today()
+        order.save()
+        return redirect('home:main-page')
+    return redirect('login')
+
+
+@login_required
+def cancelOrder(request, bid_id):
+    if isOwner(request):
+        order = PurchaseOrder.objects.get(bid=TenderBid.objects.get(id=bid_id))
+        order.status = order.CANCELLED
+        print(order.status)
+        order.save()
+        return redirect('home:main-page')
+    return redirect('login')

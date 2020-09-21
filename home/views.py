@@ -9,9 +9,10 @@ def homepage(request):
     if request.user.is_authenticated:
         profile = Profile.objects.get(user=request.user)
         if profile.category == 'GM':
-            tender_list = Tender.objects.filter(owner=profile, closing_date__gte=date.today()).order_by('closing_date')
+            opentenders = Tender.objects.filter(owner=profile, closing_date__gte=date.today()).order_by('closing_date')
+            closedtenders = Tender.objects.filter(owner=profile, closing_date__lt=date.today()).order_by('closing_date')
             orders = PurchaseOrder.objects.filter(bid__tender__owner=profile)
-            context = {'tender_list': tender_list, 'orders': orders}
+            context = {'opentenders': opentenders, 'closedtenders': closedtenders, 'orders': orders}
             return render(request, 'ownerhome.html', context)
         else:
             return render(request, 'home.html')

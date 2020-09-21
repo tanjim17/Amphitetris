@@ -37,7 +37,7 @@
         </nav>
   <div class="container">
       <div class="row">
-      <div class="col-lg-6">
+      <div class="col-lg-5">
       <h3>Open Tenders</h3>
       <table class="table">
           <thead>
@@ -48,7 +48,7 @@
             </tr>
           </thead>
           <tbody>
-          {% for tender in tender_list %}
+          {% for tender in opentenders %}
               <tr>
                     <td scope="row">{{ forloop.counter }}</td>
                   <td><a href="{% url 'owner:showtender' tender_id=tender.id %}">{{ tender.tender_title }}</a></td>
@@ -69,10 +69,10 @@
           </thead>
           <tbody>
           {% for order in orders %}
-              {% if order.status == 'PD' %}
+              {% if order.status == order.PENDING %}
               <tr>
                     <td scope="row">{{ forloop.counter }}</td>
-                  <td><a href="{% url 'owner:showtender' tender_id=order.bid.tender.id %}">
+                  <td><a href="{% url 'owner:showbid' tender_id=order.bid.tender.id bid_id=order.bid.id%}">
                       {{ order.bid.tender.tender_title }}</a></td>
                   <td>{{ order.bid.vendor.user.username }}</td>
                     <td>{{ order.bid.delivery_date }}</td>
@@ -83,8 +83,32 @@
         </table>
       </div>
 
-      <div class="col-lg-6">
+      <div class="col-lg-5">
       <h3>Successful Purchase Orders</h3>
+      <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Title</th>
+              <th scope="col">Vendor</th>
+              <th scope="col">Received Date</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for order in orders %}
+          {% if order.status == order.SUCCESSFUL %}
+              <tr>
+                    <td scope="row">{{ forloop.counter }}</td>
+                  <td><a href="{% url 'owner:showbid' tender_id=order.bid.tender.id bid_id=order.bid.id%}">
+                      {{ order.bid.tender.tender_title }}</a></td>
+                    <td>{{ order.bid.vendor.user.username }}</td>
+                    <td>{{ order.received_date }}</td>
+              </tr>
+              {% endif %}
+          {% endfor %}
+          </tbody>
+        </table>
+      <h3>Cancelled Purchase Orders</h3>
       <table class="table">
           <thead>
             <tr>
@@ -95,14 +119,36 @@
           </thead>
           <tbody>
           {% for order in orders %}
-          {% if order.status == 'SC' %}
+          {% if order.status == order.CANCELLED %}
               <tr>
                     <td scope="row">{{ forloop.counter }}</td>
-                  <td><a href="{% url 'owner:showtender' tender_id=order.bid.tender.id %}">
+                  <td><a href="{% url 'owner:showbid' tender_id=order.bid.tender.id bid_id=order.bid.id%}">
                       {{ order.bid.tender.tender_title }}</a></td>
                     <td>{{ order.bid.vendor.user.username }}</td>
               </tr>
               {% endif %}
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col-lg-2">
+      <h3>Closed Tenders</h3>
+      <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Title</th>
+              <th scope="col">Closing Date</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for tender in closedtenders %}
+              <tr>
+                    <td scope="row">{{ forloop.counter }}</td>
+                  <td><a href="{% url 'owner:showtender' tender_id=tender.id %}">{{ tender.tender_title }}</a></td>
+                    <td>{{ tender.closing_date }}</td>
+              </tr>
           {% endfor %}
           </tbody>
         </table>
