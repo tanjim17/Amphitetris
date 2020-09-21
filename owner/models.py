@@ -14,17 +14,3 @@ class Tender(models.Model):
 
     def __str__(self):
         return self.tender_title
-
-
-class PurchaseOrder(models.Model):
-    tender = models.OneToOneField(Tender, on_delete=models.CASCADE)
-    PENDING = 'PD'
-    SUCCESS = 'SC'
-    STATUS_CHOICES = [
-        (PENDING, 'Pending'),
-        (SUCCESS, 'Successful'),
-    ]
-    status = models.CharField(max_length=2, choices=STATUS_CHOICES, default=PENDING)
-
-    def __str__(self):
-        return self.tender.tender_title

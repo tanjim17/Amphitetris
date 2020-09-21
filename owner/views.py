@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from owner.forms import TenderForm
 from User.models import Profile
-from owner.models import Tender
+from owner.models import *
+from TenderPost.models import *
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
@@ -34,8 +35,19 @@ def createTender(request):
 def showTenderDetail(request, tender_id):
     if isOwner(request):
         tender = Tender.objects.get(id=tender_id)
-        context = {'tender': tender}
+        tenderBids = TenderBid.objects.filter(tender=tender)
+        context = {'tender': tender, 'tenderBids': tenderBids}
         return render(request, 'tenderdetail.html', context)
+    return redirect('login')
+
+
+@login_required
+def showBidDetail(request, tender_id, bid_id):
+    if isOwner(request):
+        tender = Tender.objects.get(id=tender_id)
+        bid = TenderBid.objects.get(id=bid_id)
+        context = {'tender': tender, 'bid': bid}
+        return render(request, 'biddetail.html', context)
     return redirect('login')
 
 
@@ -43,6 +55,15 @@ def showTenderDetail(request, tender_id):
 def deleteTender(request, tender_id):
     if isOwner(request):
         Tender.objects.get(id=tender_id).delete()
+        return redirect('home:main-page')
+    return redirect('login')
+
+
+@login_required
+def createOrder(request, bid_id):
+    if isOwner(request):
+        order = PurchaseOrder(bid=TenderBid.objects.get(id=bid_id))
+        order.save()
         return redirect('home:main-page')
     return redirect('login')
 
