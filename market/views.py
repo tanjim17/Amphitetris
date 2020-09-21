@@ -16,7 +16,7 @@ def showProducts(request):
 
 def productDetails(request, vendor_id, product_name):
     if request.user.profile.category == "GM":
-        if (request.method == "POST"):
+        if request.method == "POST":
             userInstance = User.objects.get(username=request.user.username)
             o = Orders(buyer_reg_no=Profile.objects.get(user=userInstance).registration_num, seller_reg_no=vendor_id, product_name=product_name,
                        amount=request.POST['amount'], price=float(Inventory.objects.get(vendor_id=vendor_id, product_name=product_name).price_per_unit) * float(request.POST['amount']))

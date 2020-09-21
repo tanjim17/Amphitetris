@@ -8,3 +8,4 @@ urlpatterns = [
     path('vendor/<int:vendor_id>/<str:product_name>/',
          views.productDetails, name="productDetails"),
 ]
+
