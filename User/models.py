@@ -11,7 +11,7 @@ class Profile(models.Model):
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
     category = models.CharField(max_length=20, choices=(
         (Vendor, 'Vendor'), (Garment, 'Garment')), default=Vendor)
-    registration_num = models.IntegerField(default=0, unique=True)
+    registration_num = models.IntegerField(default=0)
     address = models.CharField(max_length=150, default='')
 
     def __str__(self):

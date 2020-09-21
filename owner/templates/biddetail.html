@@ -34,7 +34,7 @@
   <div class="container">
       <div class="row">
       <div class="col-lg-6">
-      <h4>Tender Detail</h4>
+      <h4>Bid Detail</h4>
       <table class="table">
           <thead>
             <tr>
@@ -71,10 +71,24 @@
           </tbody>
         </table>
           <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-              Place Order
-            </button>
-            <!-- Modal -->
+          {% if order == None%}
+              {% if bid.tender.closing_date < date %}
+                  <div class="alert alert-primary" role="alert">Tender is closed :(</div>
+                  {% else %}
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Place Order</button>
+                  {% endif %}
+              {% else %}
+                {% if order.status == order.PENDING %}
+                    <div class="alert alert-primary" role="alert">You have already placed your order!</div>
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#example2Modal">Confirm Delivery</button>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#example3Modal">Cancel</button>
+            {% elif order.status == order.SUCCESSFUL %}
+                    <div class="alert alert-primary" role="alert">Order has been delivered :)</div>
+                {% else %}
+                    <div class="alert alert-danger" role="alert">Order has been cancelled :(</div>
+                    {% endif %}
+          {% endif %}
+            <!-- Modal1 -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
@@ -90,6 +104,46 @@
                   <div class="modal-footer">
                         <a href="{% url 'owner:createorder' bid_id=bid.id%}" class="btn btn-primary" role="button">Yes</a>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+      <!-- Modal2 -->
+            <div class="modal fade" id="example2Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delivery Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Are you sure you have received delivery?
+                  </div>
+                  <div class="modal-footer">
+                        <a href="{% url 'owner:updateorder' bid_id=bid.id%}" class="btn btn-primary" role="button">Yes</a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+      <!-- Modal3 -->
+            <div class="modal fade" id="example3Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delivery Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Are you sure you wanna cancel this order?
+                  </div>
+                  <div class="modal-footer">
+                        <a href="{% url 'owner:cancelorder' bid_id=bid.id%}" class="btn btn-danger" role="button">Yes</a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
                   </div>
                 </div>
               </div>

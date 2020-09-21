@@ -18,12 +18,15 @@ class TenderBid(models.Model):
 class PurchaseOrder(models.Model):
     bid = models.ForeignKey(TenderBid, on_delete=models.CASCADE)
     PENDING = 'PD'
-    SUCCESS = 'SC'
+    SUCCESSFUL = 'SC'
+    CANCELLED = 'CC'
     STATUS_CHOICES = [
         (PENDING, 'Pending'),
-        (SUCCESS, 'Successful'),
+        (SUCCESSFUL, 'Successful'),
+        (CANCELLED, 'Cancelled'),
     ]
     status = models.CharField(max_length=2, choices=STATUS_CHOICES, default=PENDING)
+    received_date = models.DateField(null=True)
 
     def __str__(self):
         return self.bid.tender.tender_title
