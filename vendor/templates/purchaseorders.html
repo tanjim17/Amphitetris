@@ -4,17 +4,18 @@
             <div class="col-md-2">
                 <div id="list-example" class="list-group">
                     <a class="list-group-item list-group-item-action" href="{% url 'vendor:Profile' %}">Profile</a>
-                    <a class="list-group-item list-group-item-action" href="{% url 'vendor:accounts' %}">Accounts</a>
+                    <a class="list-group-item list-group-item-action" href="{% url 'vendor:purchaseorders' %}">Tender List</a>
                     <a class="list-group-item list-group-item-action" href="{% url 'vendor:inventory' %}">Inventory</a>
                     <a class="list-group-item list-group-item-action" href="{% url 'vendor:sales' %}">Sales</a>
                     <a class="list-group-item list-group-item-action" href="{% url 'vendor:order' %}">Order</a>
                     <a class="list-group-item list-group-item-action" href="{% url 'market:vendorProducts' %}">Go To Market Inventory</a>
+                    <a class="list-group-item list-group-item-action" href="{% url 'vendor:vendor_noti' %}">Notifications</a>
                 </div>
             </div>
 
             <div class="col-md-10">
                 <div data-spy="scroll" data-target="#navbar-example3" data-offset="0">
-                    <h1>Accounts</h1>
+                    Purchase orders
                 </div>
             </div>
         </div>

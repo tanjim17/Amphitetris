@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import Inventory, Orders
 from django.contrib.auth.decorators import login_required
-
+from User.models import Profile
+from django.core.exceptions import ObjectDoesNotExist
 # Create your views here.
 
 
@@ -9,8 +10,8 @@ def profile(request):
     return render(request, 'vendorProfile.html')
 
 
-def accounts(request):
-    return render(request, 'accounts.html')
+def purchaseOrders(request):
+    return render(request, 'purchaseorders.html')
 
 
 @login_required
@@ -39,28 +40,49 @@ def sales(request):
 
 
 def order(request):
-    if (request.user.profile.category == "VR"):
+    if request.user.profile.category == "VR":
         orders = Orders.objects.filter(
             seller_reg_no=request.user.profile.registration_num, accepted='p')
-        print(orders)
         return render(request, "order.html", {'orders': orders})
     else:
         return redirect('login')
     # return render(request, 'order.html')
 
 
-def orderProcess(request, vendor_id, product_name):
-    if (request.user.profile.category == "VR" and request.user.profile.registration_num == vendor_id):
+def vendorInventoryUpdate(vendor_reg, amount, product_name, category, price_per_unit, des):
+    try:
+        instance = Inventory.objects.get(vendor_id=vendor_reg, product_name = product_name)
+        instance.amount = instance.amount + amount
+        instance.save()
+    except ObjectDoesNotExist:
+        product = Inventory(vendor_id=vendor_reg, amount=amount, product_name=product_name,
+                            category=category, price_per_unit=price_per_unit, product_description=des)
+        product.save()
+
+
+
+def orderProcess(request, id, vendor_id, product_name):
+    if request.user.profile.category == "VR" and request.user.profile.registration_num == vendor_id:
         if request.method == "POST":
             state = request.POST['state']
-            print(state)
-            orderInstance = Orders.objects.get(
-                seller_reg_no=vendor_id, product_name=product_name)
-            if (state == 'accepted'):
+            # print(state)
+            orderInstance = Orders.objects.get(id=id)
+            print("id", id)
+            if state == 'accepted':
                 orderInstance.accepted = 'a'
-            elif (state == 'denied'):
+            elif state == 'denied':
                 orderInstance.accepted = 'd'
             orderInstance.save()
+            inventory_u = Inventory.objects.get(vendor_id=vendor_id, product_name=product_name)
+            category = inventory_u.category
+            price_per_unit = inventory_u.price_per_unit
+            des = inventory_u.product_description
+            inventory_u.amount = inventory_u.amount - orderInstance.amount
+            inventory_u.save()
+
+            if Profile.objects.get(registration_num=orderInstance.buyer_reg_no).category == "VR":
+                vendorInventoryUpdate(orderInstance.buyer_reg_no, orderInstance.amount,
+                                      product_name, category, price_per_unit, des)
 
             return redirect('vendor:order')
         else:
@@ -130,3 +152,7 @@ def addProduct(request):
 
 def allProducts(request):
     return render(request, 'products.html')
+
+
+def notification(request):
+    return render(request, 'notification.html')

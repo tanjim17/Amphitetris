@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 
-
+# vendor id is the registration number
 class Inventory(models.Model):
     vendor_id = models.IntegerField()
     product_name = models.CharField(max_length=100)
