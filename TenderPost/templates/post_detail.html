@@ -51,10 +51,15 @@
       </div>
     </article>
     <div class="col-md-4">
-          <div class="content-section">
+        {% if message == 'Not Applied' %}
+            <div class="content-section">
               <br>
               <a class="btn btn-primary" href="{% url 'tender:tender-bid' details.id %}">APPLY TO BID</a>
           </div>
+
+        {% else %}
+          <p class="text-danger ml-4" >{{ message }}</p>
+        {% endif %}
     </div>
 
 {% endblock content %}

@@ -5,6 +5,7 @@ from .forms import TenderBidForm
 from owner.models import Tender
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from .models import TenderBid
 # Create your views here.
 
 
@@ -22,10 +23,19 @@ def postview(request):
 
 def postdetail(request, pk):
     tender_post = Tender.objects.get(id=pk)
+    user_profile = Profile.objects.get(user=request.user)
+    message = "Not Applied"
+    if TenderBid.objects.filter(tender=tender_post).exists():
+        tender_bid = TenderBid.objects.get(tender=tender_post)
+        vendor = tender_bid.vendor
+    # print(vendor.id)
+    # print(user_profile.id)
+        if vendor.id == user_profile.id:
+            message = "You have already applied for this Tender"
     post_details = tender_post.__dict__
     post_details['cmp_name'] = tender_post.owner.user.username
     post_details['address'] = tender_post.owner.address
-    return render(request, 'post_detail.html', {'details': post_details})
+    return render(request, 'post_detail.html', {'details': post_details, 'message': message})
 
 
 def isvendor(request):
