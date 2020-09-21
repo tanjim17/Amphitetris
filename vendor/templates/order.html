@@ -45,7 +45,39 @@
 
             <div class="col-md-10">
                 <div data-spy="scroll" data-target="#navbar-example3" data-offset="0">
-                    <h1>order</h1>
+                    <div class="container">
+                        {% for order in orders.all %}
+                        <br />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">{{order.buyer_reg_no}}</h4>
+                                        <h6 class="card-text">Product name: {{order.product_name}}</h6>
+                                        <h6>Amount: {{order.amount}}</h6>
+                                        <p>Total price: {{order.price}}</p>
+                                        <form method="POST"
+                                            action="{% url 'vendor:orderProcess' order.seller_reg_no order.product_name %}">
+                                            {%csrf_token%}
+                                            <div class="form-row">
+                                                <div class="col-md-2">
+                                                    <label for="state">State</label>
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <select id="state" class="form-control" name="state">
+                                                        <option value="accepted">Accepted</option>
+                                                        <option value="denied">Denied</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <input type="submit" value="Confirm" class="btn btn-primary" />
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {%endfor%}
+                    </div>
                 </div>
             </div>
         </div>
